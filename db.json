@@ -9,7 +9,7 @@
       "id": "2",
       "inventory_name": "Кобзар",
       "description": "Збірка поезій Тараса Шевченка",
-      "photo": null
+      "photo": "/images/item-1778425912598.png"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

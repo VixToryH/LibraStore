@@ -8,10 +8,15 @@ function AdminInventoryCreate() {
     inventory_name: '',
     description: ''
   })
+  const [photo, setPhoto] = useState(null)
   const [error, setError] = useState(null)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0])
   }
 
   const handleSubmit = async (e) => {
@@ -21,6 +26,10 @@ function AdminInventoryCreate() {
       return
     }
     try {
+      const data = new FormData()
+      data.append('inventory_name', formData.inventory_name)
+      data.append('description', formData.description)
+      if (photo) data.append('photo', photo)
       await createInventory(formData)
       navigate('/')
     } catch (err) {
@@ -48,6 +57,14 @@ function AdminInventoryCreate() {
             name="description"
             value={formData.description}
             onChange={handleChange}
+          />
+          </div>
+        <div>
+          <label>Фото</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoChange}
           />
         </div>
         <button type="submit">Додати</button>

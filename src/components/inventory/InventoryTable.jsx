@@ -53,6 +53,7 @@ function InventoryTable() {
         <tr>
           <th>Назва</th>
           <th>Опис</th>
+          <th>Фото</th>
           <th>Дії</th>
         </tr>
       </thead>
@@ -61,6 +62,12 @@ function InventoryTable() {
           <tr key={item.id}>
             <td>{item.inventory_name}</td>
             <td>{item.description}</td>
+            <td>
+             {item.photo
+                ? <img src={`http://localhost:3001${item.photo}`} alt={item.inventory_name} width={60} />
+                : <span>Немає фото</span>
+             }
+            </td>
             <td>
               <button onClick={() => navigate(`/details/${item.id}`)}>Переглянути</button>
               <button onClick={() => navigate(`/edit/${item.id}`)}>Редагувати</button>

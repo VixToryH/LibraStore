@@ -18,6 +18,10 @@ export const updateInventory = (id, data) => {
   return axios.put(`${API_URL}/inventory/${id}`, data)
 }
 
+export const updateInventoryPhoto = (id, formData) => {
+    return axios.put(`${API_URL}/inventory/${id}/photo`, formData)
+  }
+
 export const deleteInventory = (id) => {
   return axios.delete(`${API_URL}/inventory/${id}`)
 }

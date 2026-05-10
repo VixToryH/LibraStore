@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getInventoryById, updateInventory } from '../services/inventoryApi'
+import { getInventoryById, updateInventory, updateInventoryPhoto } from '../services/inventoryApi'
 
 function AdminInventoryEdit() {
   const { id } = useParams()
@@ -9,6 +9,8 @@ function AdminInventoryEdit() {
     inventory_name: '',
     description: ''
   })
+  const [photo, setPhoto] = useState(null)
+  const [currentPhoto, setCurrentPhoto] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -23,6 +25,7 @@ function AdminInventoryEdit() {
         inventory_name: response.data.inventory_name,
         description: response.data.description
       })
+      setCurrentPhoto(response.data.photo)
       setLoading(false)
     } catch (err) {
       setError('Помилка завантаження')
@@ -34,6 +37,10 @@ function AdminInventoryEdit() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0])
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!formData.inventory_name) {
@@ -42,6 +49,11 @@ function AdminInventoryEdit() {
     }
     try {
       await updateInventory(id, formData)
+      if (photo) {
+        const photoData = new FormData()
+        photoData.append('photo', photo)
+        await updateInventoryPhoto(id, photoData)
+      }
       navigate('/')
     } catch (err) {
       setError('Помилка при оновленні книги')
@@ -71,6 +83,17 @@ function AdminInventoryEdit() {
             name="description"
             value={formData.description}
             onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Фото</label>
+          {currentPhoto && (
+            <img src={`http://localhost:3001${currentPhoto}`} alt="поточне фото" width={100} />
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoChange}
           />
         </div>
         <button type="submit">Зберегти</button>

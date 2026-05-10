@@ -31,6 +31,10 @@ function AdminInventoryDetails() {
     <div>
       <h1>{item.inventory_name}</h1>
       <p>{item.description}</p>
+      {item.photo && (
+        <img src={`http://localhost:3001${item.photo}`} alt={item.inventory_name} width={300} />
+      )}
+      <br />
       <button onClick={() => navigate('/')}>← Назад</button>
     </div>
   )
