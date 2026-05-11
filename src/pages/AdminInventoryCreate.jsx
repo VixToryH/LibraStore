@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createInventory } from '../services/inventoryApi'
+import styles from './AdminInventoryCreate.module.css'
 
 function AdminInventoryCreate() {
   const navigate = useNavigate()
@@ -38,11 +39,13 @@ function AdminInventoryCreate() {
   }
 
   return (
-    <div>
-      <h1>Додати книгу</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Додати книгу</h1>
+      </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        {error && <p className={styles.error}>{error}</p>}
+        <div className={styles.field}>
           <label>Назва книги</label>
           <input
             type="text"
@@ -51,15 +54,15 @@ function AdminInventoryCreate() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className={styles.field}>
           <label>Опис</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
           />
-          </div>
-        <div>
+        </div>
+        <div className={styles.field}>
           <label>Фото</label>
           <input
             type="file"
@@ -67,8 +70,10 @@ function AdminInventoryCreate() {
             onChange={handlePhotoChange}
           />
         </div>
-        <button type="submit">Додати</button>
-        <button type="button" onClick={() => navigate('/')}>Скасувати</button>
+        <div className={styles.actions}>
+          <button className={styles.btnSubmit} type="submit">Додати</button>
+          <button className={styles.btnCancel} type="button" onClick={() => navigate('/')}>Скасувати</button>
+        </div>
       </form>
     </div>
   )

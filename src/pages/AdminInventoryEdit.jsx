@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getInventoryById, updateInventory, updateInventoryPhoto } from '../services/inventoryApi'
+import styles from './AdminInventoryEdit.module.css'
 
 function AdminInventoryEdit() {
   const { id } = useParams()
@@ -64,11 +65,13 @@ function AdminInventoryEdit() {
   if (error) return <p>{error}</p>
 
   return (
-    <div>
-      <h1>Редагувати книгу</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Редагувати книгу</h1>
+      </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        {error && <p className={styles.error}>{error}</p>}
+        <div className={styles.field}>
           <label>Назва книги</label>
           <input
             type="text"
@@ -77,7 +80,7 @@ function AdminInventoryEdit() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className={styles.field}>
           <label>Опис</label>
           <textarea
             name="description"
@@ -85,7 +88,7 @@ function AdminInventoryEdit() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className={styles.field}>
           <label>Фото</label>
           {currentPhoto && (
             <img src={`http://localhost:3001${currentPhoto}`} alt="поточне фото" width={100} />
@@ -96,8 +99,10 @@ function AdminInventoryEdit() {
             onChange={handlePhotoChange}
           />
         </div>
-        <button type="submit">Зберегти</button>
-        <button type="button" onClick={() => navigate('/')}>Скасувати</button>
+        <div className={styles.actions}>
+          <button className={styles.btnSubmit} type="submit">Зберегти</button>
+          <button className={styles.btnCancel} type="button" onClick={() => navigate('/')}>Скасувати</button>
+        </div>
       </form>
     </div>
   )

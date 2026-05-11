@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getInventory, deleteInventory } from '../../services/inventoryApi'
 import { useNavigate } from 'react-router-dom'
 import ConfirmModal from './ConfirmModal'
+import styles from './InventoryTable.module.css'
 
 function InventoryTable() {
   const [inventory, setInventory] = useState([])
@@ -35,12 +36,12 @@ function InventoryTable() {
     }
   }
 
-  if (loading) return <p>Завантаження...</p>
-  if (error) return <p>{error}</p>
-  if (inventory.length === 0) return <p>Книг немає</p>
+  if (loading) return <p className={styles.message}>Завантаження...</p>
+  if (error) return <p className={styles.message}>{error}</p>
+  if (inventory.length === 0) return <p className={styles.message}>Книг немає</p>
 
   return (
-    <div>
+    <div className={styles.tableWrapper}>
     {deleteId && (
       <ConfirmModal
         message="Ти точно хочеш видалити цю книгу?"
@@ -48,7 +49,7 @@ function InventoryTable() {
         onCancel={() => setDeleteId(null)}
       />
     )}
-    <table>
+    <table className={styles.table}>
       <thead>
         <tr>
           <th>Назва</th>
@@ -64,14 +65,16 @@ function InventoryTable() {
             <td>{item.description}</td>
             <td>
              {item.photo
-                ? <img src={`http://localhost:3001${item.photo}`} alt={item.inventory_name} width={60} />
-                : <span>Немає фото</span>
+                ? <img className={styles.photo} src={`http://localhost:3001${item.photo}`} alt={item.inventory_name} />
+                : <span className={styles.noPhoto}>Немає фото</span>
              }
             </td>
             <td>
-              <button onClick={() => navigate(`/details/${item.id}`)}>Переглянути</button>
-              <button onClick={() => navigate(`/edit/${item.id}`)}>Редагувати</button>
-              <button onClick={() => setDeleteId(item.id)}>Видалити</button>
+            <div className={styles.actions}>
+                <button className={styles.btnView} onClick={() => navigate(`/details/${item.id}`)}>Переглянути</button>
+                  <button className={styles.btnEdit} onClick={() => navigate(`/edit/${item.id}`)}>Редагувати</button>
+                  <button className={styles.btnDelete} onClick={() => setDeleteId(item.id)}>Видалити</button>
+                </div>
             </td>
           </tr>
         ))}
