@@ -11,7 +11,7 @@ export const getInventoryById = (id) => {
 }
 
 export const createInventory = (data) => {
-  return axios.post(`${API_URL}/inventory`, data)
+  return axios.post(`${API_URL}/register`, data)
 }
 
 export const updateInventory = (id, data) => {
