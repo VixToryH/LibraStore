@@ -3,9 +3,10 @@ import { getInventory, deleteInventory } from '../../services/inventoryApi'
 import { useNavigate } from 'react-router-dom'
 import ConfirmModal from './ConfirmModal'
 import styles from './InventoryTable.module.css'
+import { useInventory } from '../../store/InventoryContext'
 
 function InventoryTable() {
-  const [inventory, setInventory] = useState([])
+  const { inventory, setInventory } = useInventory()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
