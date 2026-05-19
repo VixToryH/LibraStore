@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 const FAVORITES_KEY = 'librastore_favorites'
 
+const normalizeId = (id) => String(id)
+
 export function useFavorites() {
   const [favorites, setFavorites] = useState([])
 
@@ -9,7 +11,7 @@ export function useFavorites() {
   useEffect(() => {
     const saved = localStorage.getItem(FAVORITES_KEY)
     if (saved) {
-      setFavorites(JSON.parse(saved))
+      setFavorites(JSON.parse(saved).map(normalizeId))
     }
   }, [])
 
@@ -19,17 +21,18 @@ export function useFavorites() {
   }
 
   const addFavorite = (id) => {
-    if (!favorites.includes(id)) {
-      saveFavorites([...favorites, id])
+    const key = normalizeId(id)
+    if (!favorites.includes(key)) {
+      saveFavorites([...favorites, key])
     }
   }
 
   const removeFavorite = (id) => {
-    saveFavorites(favorites.filter(fav => fav !== id))
+    saveFavorites(favorites.filter(fav => fav !== normalizeId(id)))
   }
 
   const isFavorite = (id) => {
-    return favorites.includes(id)
+    return favorites.includes(normalizeId(id))
   }
 
   return { favorites, addFavorite, removeFavorite, isFavorite }

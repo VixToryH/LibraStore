@@ -9,7 +9,13 @@ function AdminInventory() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>LibraStore — Список книг</h1>
-        <button className={styles.addButton} onClick={() => navigate('/create')}>+ Додати книгу</button>
+        <div className={styles.actions}>
+          <button type="button" onClick={() => navigate('/gallery')}>📚 Галерея</button>
+          <button type="button" onClick={() => navigate('/favorites')}>❤️ Улюблені</button>
+          <button type="button" className={styles.addButton} onClick={() => navigate('/create')}>
+            + Додати книгу
+          </button>
+        </div>
       </div>
       <InventoryTable />
     </div>
